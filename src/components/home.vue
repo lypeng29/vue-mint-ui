@@ -1,42 +1,55 @@
 <template>
 <div>
-	<mt-swipe :auto="4000" :show-indicators="false" class="swiper">
-	  <mt-swipe-item><img src="../assets/b11.jpg"></mt-swipe-item>
-	  <mt-swipe-item><img src="../assets/b12.jpg"></mt-swipe-item>
-	  <mt-swipe-item><img src="../assets/b13.jpg"></mt-swipe-item>
-	</mt-swipe>
-	
-	<router-link :to="{name: 'form'}" class="home_button"><mt-button type="primary">开始记账</mt-button></router-link>
-
+	<headerVue></headerVue>
+	<div class="box">
+    <!-- tabcontainer -->  
+      <mt-tab-container class="page-tabbar-container" v-model="selected">  
+        <mt-tab-container-item id="记账">  
+			<formVue></formVue>
+        </mt-tab-container-item>  
+        <mt-tab-container-item id="列表">  
+        	<listVue></listVue>
+        </mt-tab-container-item>
+        <mt-tab-container-item id="我的">  
+        	<myVue></myVue>
+        </mt-tab-container-item>  
+      </mt-tab-container>
+	</div>
+	<!-- 底部开始 -->
+	<mt-tabbar v-model="selected">
+	  <mt-tab-item id="记账">
+	  	<img slot="icon" src="../assets/home.png">记账
+	  </mt-tab-item>
+	  <mt-tab-item id="列表">
+	    <img slot="icon" src="../assets/list.png">列表
+	  </mt-tab-item>
+	  <mt-tab-item id="我的">
+	    <img slot="icon" src="../assets/my.png">我的
+	  </mt-tab-item>
+	</mt-tabbar>
 </div>
 </template>
 
 <script>
 import Header from './header.vue';
-import Footer from './footer.vue';
-import { Toast } from 'mint-ui';
+import Formvue from './form.vue';
+import Listvue from './list.vue';
+import Myvue from './my.vue';
 	export default {
 		data () {
-			return {
-				
+			return {				
+				selected: '记账'
 			}
 		},
 		components:{
 			'headerVue':Header,
-			'footerVue':Footer
+			'formVue':Formvue,
+			'listVue':Listvue,
+			'myVue':Myvue,
 		},
 		methods:{
-			tz(page){
-				Toast({
-				  duration: 2000,
-				  message: '跳转成功',
-				  iconClass: 'icon icon-success'
-				});
-				var url = '#/'+page;
-				location.href=url;
-			}
 		}
-	}
+	}	
 </script>
 
 <style>

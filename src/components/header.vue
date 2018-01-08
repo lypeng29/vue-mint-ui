@@ -1,9 +1,9 @@
 <template>
 <div>
 	<mt-header title="个人记账" fixed>
-	  <router-link to="/" slot="left">
+<!-- 	  <router-link to="/" slot="left">
 	    <mt-button icon="back">返回</mt-button>
-	  </router-link>
+	  </router-link> -->
 	</mt-header>
 	<div class="header"></div>
 </div>

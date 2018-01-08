@@ -5,22 +5,21 @@ import VueRouter from 'vue-router';
 import Mint from 'mint-ui'; 
 import 'mint-ui/lib/style.css';
 import './assets/style.css';
+import './assets/common.js';
 
+import start from './components/start.vue';
 import Home from './components/home.vue';
-import FormTable from './components/formtable.vue';
-import List from './components/list.vue';
-import View from './components/view.vue';
+// import Tabber from './components/tabber.vue';
 
 Vue.use(VueRouter);
 Vue.use(Mint);
 
 let router = new VueRouter({
 	routes : [
-		{path:'/', component:Home},
+		{path:'/', component:start},
+        {name:'start', path:'/start', component:start},
 		{name:'home', path:'/home', component:Home},
-		{name:'form', path:'/form', component:FormTable},
-        {name:'list', path:'/list', component:List},
-		{name:'view', path:'/view', component:View},
+		// {name:'tabber', path:'/tabber', component:Tabber},
 	]
 })
 
