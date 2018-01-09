@@ -1,7 +1,7 @@
 <template>
 <div>
 	<headerVue></headerVue>
-	<div class="box">
+	<div class="pa10 mb60">
     <!-- tabcontainer -->  
       <mt-tab-container class="page-tabbar-container" v-model="selected">  
         <mt-tab-container-item id="记账">  
@@ -16,7 +16,7 @@
       </mt-tab-container>
 	</div>
 	<!-- 底部开始 -->
-	<mt-tabbar v-model="selected">
+	<mt-tabbar v-model="selected" fixed>
 	  <mt-tab-item id="记账">
 	  	<img slot="icon" src="../assets/home.png">记账
 	  </mt-tab-item>

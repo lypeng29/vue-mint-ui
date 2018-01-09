@@ -5,7 +5,7 @@ import VueRouter from 'vue-router';
 import Mint from 'mint-ui'; 
 import 'mint-ui/lib/style.css';
 import './assets/style.css';
-import './assets/common.js';
+
 
 import start from './components/start.vue';
 import Home from './components/home.vue';
@@ -13,6 +13,7 @@ import Home from './components/home.vue';
 
 Vue.use(VueRouter);
 Vue.use(Mint);
+// Vue.use(util);
 
 let router = new VueRouter({
 	routes : [
@@ -21,7 +22,7 @@ let router = new VueRouter({
 		{name:'home', path:'/home', component:Home},
 		// {name:'tabber', path:'/tabber', component:Tabber},
 	]
-})
+});
 
 new Vue({   
     el: '#app',

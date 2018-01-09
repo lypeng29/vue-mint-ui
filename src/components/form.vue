@@ -11,13 +11,13 @@
 		<mt-field label="金额" placeholder="请输入金额" type="number" v-model="number"></mt-field>
 		<mt-field label="时间" placeholder="请选择时间" type="date" v-model="date"></mt-field>
 		<mt-field label="备注" placeholder="备注" v-model="mark"></mt-field>
-		<mt-button type="primary" @click="tz('list')" class="button_form">提交</mt-button>
+		<mt-button type="primary" @click="post1()" class="button_form">提交</mt-button>
 	  </mt-tab-container-item>
 	  <mt-tab-container-item id="2">
 		<mt-field label="金额" placeholder="请输入金额" type="number" v-model="number2"></mt-field>
 		<mt-field label="时间" placeholder="请选择时间" type="date" v-model="date2"></mt-field>
 		<mt-field label="备注" placeholder="备注" type="textarea" rows="2" v-model="mark2"></mt-field>
-		<mt-button type="primary" @click="tz('list')" class="button_form">提交</mt-button>
+		<mt-button type="primary" @click="post2()" class="button_form">提交</mt-button>
 	  </mt-tab-container-item>
 	</mt-tab-container>
 </div>
@@ -42,7 +42,7 @@
 				  },
 				  {
 				    label: '交通(行)',
-				    value: 'cx'
+				    value: 'jt'
 				  },
 				  {
 				    label: '其它(备)',
@@ -60,6 +60,17 @@
 			}
 		},
 		methods:{
+			post1(){
+				// this.value;
+
+
+				alert(this.value);
+
+
+			},
+			post2(){
+				alert(this.number2);
+			},
 			tz(page){
 				var url = '#/'+page;
 				location.href=url;

@@ -7,7 +7,6 @@ module.exports = {
     entry: {
         app: './src/main.js',
         // common: ['vue','jquery']
-        // print: './src/print.js',
     },
     devtool: 'inline-source-map',
     devServer: {
