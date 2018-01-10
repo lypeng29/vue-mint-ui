@@ -1,13 +1,13 @@
 <template>
 <ul class="cell">
-	<li v-for="vo in datas">
+	<li v-for="vo in datas" @click="mark(vo.mark)">
 		<span v-if="vo.type == 1" class="cell-img">
 			<img src="../assets/payout.png" align="absmiddle">
 		</span>
 		<span v-else class="cell-img">
 			<img src="../assets/payin.png" align="absmiddle">
 		</span>
-		<span class="cell-category">{{vo.category}}</span>
+		<span class="cell-category">{{[vo.category,vo.type]|catfilter}}</span>
 		<span class="cell-money">￥{{vo.money}}</span>
 		<span class="cell-time">{{ vo.time|ftime }}</span>
 	</li>
@@ -55,45 +55,43 @@
         }
         return f_time;
     }
+import {Toast} from 'mint-ui';		
 	export default {
 		data () {
 			return {
 				datas:[
-					{category:'红包',type:'2',money:'12.85',time:1515400584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
-					{category:'餐饮',type:'1',money:'300',time:1515300584},
+					{category:'1',type:'2',money:'12.85',time:1515400584,mark:'22'},
+					{"category":"1","type":1,"money":"300","time":1515542400,"mark":"25"},
+					{"category":"2","type":2,"money":"300","time":1515542400,"mark":"25"},
+					{"category":"1","type":1,"money":"123","time":1515575160,"mark":"ddd"},
 				]
 			}
 		},
 		filters:{
 			ftime:function(t){
 				return friendly_time(t);
+			},
+			catfilter:function([cat,type]){
+				if(type==1){
+					var str="其他,餐饮,购物,住房,交通";
+				}else{
+					var str="其他,工资,红包";
+				}
+
+				var strs= new Array();
+				strs=str.split(",");
+				return strs[cat];
 			}
 		},
+		methods:{
+			mark(c){
+				Toast({
+					message: c,
+					position: 'top',
+					duration: 5000
+				});
+			}
+		}
 	}
 </script>
 

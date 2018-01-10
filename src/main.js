@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import App from './app.vue';
-import VueRouter from 'vue-router'; 
+import VueRouter from 'vue-router';
 
 import Mint from 'mint-ui'; 
 import 'mint-ui/lib/style.css';
+
 import './assets/style.css';
 
 
