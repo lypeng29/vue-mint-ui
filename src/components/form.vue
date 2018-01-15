@@ -7,14 +7,14 @@
 
 	<mt-tab-container v-model="tselected">
 	  <mt-tab-container-item id="1">
-		<mt-radio title="花费类别" v-model="value" :options="options1"></mt-radio>
+		<mt-radio title="花费类别" v-model=value :options="options1"></mt-radio>
 		<mt-field label="金额" placeholder="请输入金额" type="number" v-model="number"></mt-field>
 		<mt-field label="时间" placeholder="请选择时间" type="datetime" v-model="date"></mt-field>
 		<mt-field label="备注" placeholder="备注" v-model="mark"></mt-field>
 		<mt-button type="primary" @click="post1()" class="button_form">提交</mt-button>
 	  </mt-tab-container-item>
 	  <mt-tab-container-item id="2">
-		<mt-radio title="收入类别" v-model="value" :options="options2"></mt-radio>
+		<mt-radio title="收入类别" v-model=value :options="options2"></mt-radio>
 		<mt-field label="金额" placeholder="请输入金额" type="number" v-model="number2"></mt-field>
 		<mt-field label="时间" placeholder="请选择时间" type="datetime" v-model="date2"></mt-field>
 		<mt-field label="备注" placeholder="备注" type="textarea" rows="2" v-model="mark2"></mt-field>
@@ -27,43 +27,12 @@
 <script>
 import axios from 'axios';
 import Toast from 'mint-ui';
+import { getcategory } from '../api/form'
 export default {
 	data() {
 		return {
-			options1: [{
-					label: '餐饮(吃)',
-					value: '1',
-				},
-				{
-					label: '购物(穿)',
-					value: '2'
-				},
-				{
-					label: '住房(住)',
-					value: '3'
-				},
-				{
-					label: '交通(行)',
-					value: '4'
-				},
-				{
-					label: '其它(备)',
-					value: '0'
-				}
-			],
-			options2: [{
-					label: '工资',
-					value: '1',
-				},
-				{
-					label: '红包',
-					value: '2'
-				},
-				{
-					label: '其它',
-					value: '0'
-				}
-			],			
+			options1: [],
+			options2: [],			
 			value: '1',
 			number: '',
 			date: getNowFormatDate(),
@@ -74,7 +43,23 @@ export default {
 			tselected: '1'
 		}
 	},
+	mounted() {
+		this.getoptions1();
+		this.getoptions2();
+			var that =this;
+	},	
 	methods: {
+		getoptions1(){
+			getcategory({type:1}).then(res => {
+                this.options1 = res.data.data;
+            })
+		},
+		getoptions2(){
+			var that = this;
+			axios.get('http://www.test2.com/api/getcategory/2').then(function(res){
+                that.options2 = res.data.data;
+			});
+		},	
 		post1() {
 			// alert(this.number);
 			axios.post('http://www.test.com/vue-mint-ui/api/index.php?act=add', {
@@ -91,6 +76,7 @@ export default {
 					console.log(error);
 			});
 		},
+				
 		post2() {
 			alert(this.number2);
 		},
