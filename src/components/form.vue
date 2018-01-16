@@ -14,7 +14,7 @@
 		<mt-button type="primary" @click="post1()" class="button_form">提交</mt-button>
 	  </mt-tab-container-item>
 	  <mt-tab-container-item id="2">
-		<mt-radio title="收入类别" v-model=value :options="options2"></mt-radio>
+		<mt-radio title="收入类别" v-model=value2 :options="options2"></mt-radio>
 		<mt-field label="金额" placeholder="请输入金额" type="number" v-model="number2"></mt-field>
 		<mt-field label="时间" placeholder="请选择时间" type="datetime" v-model="date2"></mt-field>
 		<mt-field label="备注" placeholder="备注" type="textarea" rows="2" v-model="mark2"></mt-field>
@@ -25,15 +25,15 @@
 </template>
 
 <script>
-import axios from 'axios';
-import Toast from 'mint-ui';
-import { getcategory } from '../api/form'
+import {Toast} from 'mint-ui';
+import {getcategory,addfinance} from '../api/form'
 export default {
 	data() {
 		return {
 			options1: [],
 			options2: [],			
 			value: '1',
+			value2: '6',
 			number: '',
 			date: getNowFormatDate(),
 			mark: '',
@@ -46,39 +46,56 @@ export default {
 	mounted() {
 		this.getoptions1();
 		this.getoptions2();
-			var that =this;
 	},	
 	methods: {
 		getoptions1(){
-			getcategory({type:1}).then(res => {
+			getcategory(1).then(res => {
                 this.options1 = res.data.data;
             })
 		},
 		getoptions2(){
-			var that = this;
-			axios.get('http://www.test2.com/api/getcategory/2').then(function(res){
-                that.options2 = res.data.data;
-			});
-		},	
+			getcategory(2).then(res => {
+                this.options2 = res.data.data;
+            })
+		},		
+		// getoptions2(){
+		// 	var that = this;
+		// 	axios.get('http://www.test2.com/api/getcategory/2').then(function(res){
+        //         that.options2 = res.data.data;
+		// 	});
+		// },	
 		post1() {
-			// alert(this.number);
-			axios.post('http://www.test.com/vue-mint-ui/api/index.php?act=add', {
-				category: this.value,
+			addfinance({
+				cid: this.value,
 				type:1,
 				money: this.number,
-				time: Date.parse(new Date(this.date))/1000,
+				addtime: Date.parse(new Date(this.date))/1000,
 				mark: this.mark
-			}).then(function (data) {
-					if(data.data == 1){
-						console.log('1111111');
-					}
-			}).catch(function (error) {
-					console.log(error);
+			}).then(function(res){
+				if(res.data.code == 0){
+					// Toast('操作成功');
+					Toast('提交成功');
+				}else{
+					console.log(res.data);
+					Toast('error');
+				}
 			});
 		},
 				
 		post2() {
-			alert(this.number2);
+			addfinance({
+				cid: this.value2,
+				type:2,
+				money: this.number2,
+				addtime: Date.parse(new Date(this.date2))/1000,
+				mark: this.mark2
+			}).then(function(res){
+				if(res.data.code == 0){
+					Toast('提交成功');
+				}else{
+					Toast('error');
+				}
+			});
 		},
 		tz(page) {
 			var url = '#/' + page;

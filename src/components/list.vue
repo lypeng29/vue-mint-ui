@@ -1,97 +1,68 @@
 <template>
 <ul class="cell">
-	<li v-for="vo in datas" @click="mark(vo.mark)">
+	<li v-for="vo in datas" @click="mark(vo.atime,vo.type,vo.money)">
 		<span v-if="vo.type == 1" class="cell-img">
-			<img src="../assets/payout.png" align="absmiddle">
+			<img src="../assets/payout.png" align="absmiddle"> ￥{{vo.money}}
 		</span>
 		<span v-else class="cell-img">
-			<img src="../assets/payin.png" align="absmiddle">
+			<img src="../assets/payin.png" align="absmiddle"> ￥{{vo.money}}
 		</span>
-		<span class="cell-category">{{[vo.category,vo.type]|catfilter}}</span>
-		<span class="cell-money">￥{{vo.money}}</span>
-		<span class="cell-time">{{ vo.time|ftime }}</span>
+		<span class="cell-time">{{ vo.ftime }}</span>
+		<span class="cell-category">{{vo.cname}} <small>{{vo.mark}}</small></span>
 	</li>
 </ul>
 </template>
 
 <script>
-    function friendly_time(time_stamp) {
-        var now_d = new Date();
-        var now_time = now_d.getTime() / 1000; //获取当前时间的秒数
-        var f_d = new Date();
-        f_d.setTime(time_stamp * 1000);
-        var f_time = f_d.toLocaleDateString();
-       
-        var ct = now_time - time_stamp;
-        var day = 0;
-        if (ct < 0)
-        {
-          f_time = f_d.toLocaleString();
-        }
-        else if (ct < 60)
-        {
-          f_time = Math.floor(ct) + '秒前';
-        }
-        else if (ct < 3600)
-        {
-          f_time = Math.floor(ct / 60) + '分钟前';
-        }
-        else if (ct < 86400)//一天
-        {
-          f_time = Math.floor(ct / 3600) + '小时前';
-        }
-        else if (ct < 604800)//7天
-        {
-          day = Math.floor(ct / 86400);
-          if (day < 2)
-            f_time = '昨天';
-          else
-            f_time = day + '天前';
-        }
-        else
-        {
-          day = Math.floor(ct / 86400);
-          f_time = day + '天前';
-        }
-        return f_time;
-    }
-import {Toast} from 'mint-ui';		
+import {Toast} from 'mint-ui';
+import {getinfo} from '../api/form'	
 	export default {
 		data () {
 			return {
-				datas:[
-					{category:'1',type:'2',money:'12.85',time:1515400584,mark:'22'},
-					{"category":"1","type":1,"money":"300","time":1515542400,"mark":"25"},
-					{"category":"2","type":2,"money":"300","time":1515542400,"mark":"25"},
-					{"category":"1","type":1,"money":"123","time":1515575160,"mark":"ddd"},
-				]
+				datas:[]
 			}
 		},
-		filters:{
-			ftime:function(t){
-				return friendly_time(t);
-			},
-			catfilter:function([cat,type]){
-				if(type==1){
-					var str="其他,餐饮,购物,住房,交通";
-				}else{
-					var str="其他,工资,红包";
-				}
-
-				var strs= new Array();
-				strs=str.split(",");
-				return strs[cat];
-			}
-		},
+		mounted() {
+			this.getinfo();
+		},		
 		methods:{
-			mark(c){
+			mark(c,t,m){
+				if(t == 1){
+					var s = c+" 支出： ￥"+m;
+				}else{
+					var s = c+" 收入： ￥"+m;
+				}
 				Toast({
-					message: c,
-					position: 'top',
-					duration: 5000
+					message: s,
+					// position: 'top',
+					duration: 3000
 				});
-			}
-		}
+			},
+			getinfo(){
+				getinfo().then(res => {
+					this.datas = res.data.data;
+				})
+			}			
+		},
+		// filters:{
+			//php端去处理
+			// {{ vo.addtime|ftime }}
+			// ftime:function(t){
+			// 	return friendly_time(t);
+			// },
+			// {{[vo.cid,vo.type]|catfilter}}
+			// catfilter:function([cat,type]){
+			// 	if(type==1){
+			// 		var str="其他,餐饮,购物,住房,交通";
+			// 	}else{
+			// 		var str="其他,工资,红包";
+			// 	}
+
+			// 	var strs= new Array();
+			// 	strs=str.split(",");
+			// 	return strs[cat];
+			// }
+		// }
 	}
 </script>
 

@@ -5,32 +5,46 @@
  
 		<!-- cell -->
 		<br/>
-		<mt-cell title="上月：￥1111.00" is-link @click.native="handleClick('1')"><span>明细</span><img slot="icon" src="../assets/payout.png"></mt-cell>
-		<mt-cell title="上月：￥2222.00" is-link @click.native="handleClick('2')"><span>明细</span><img slot="icon" src="../assets/payin.png"></mt-cell>
+		<mt-cell title="总计：">￥{{v1}}<img slot="icon" src="../assets/payout.png"></mt-cell>
+		<mt-cell title="总计：">￥{{v2}}<img slot="icon" src="../assets/payin.png"></mt-cell>
 		<br/>
-		<mt-cell title="本月：￥3333.00" is-link @click.native="handleClick('3')"><span>明细</span><img slot="icon" src="../assets/payout.png"></mt-cell>
-		<mt-cell title="本月：￥4444.00" is-link @click.native="handleClick('4')"><span>明细</span><img slot="icon" src="../assets/payin.png"></mt-cell>
+		<mt-cell title="本月：" is-link @click.native="handleClick('this','1')"><span>￥{{v3}} 明细</span><img slot="icon" src="../assets/payout.png"></mt-cell>
+		<mt-cell title="本月：" is-link @click.native="handleClick('this','2')"><span>￥{{v4}} 明细</span><img slot="icon" src="../assets/payin.png"></mt-cell>
 		
-		<mt-popup v-model="popupVisible" position="right" modal=true><child v-bind:typedata="typedata"> </child></mt-popup>
+		<mt-popup v-model="popupVisible" position="right" modal=true><child> </child></mt-popup>
 
 	</div>
 </template>
 
 <script>
+import {getsum} from '../api/form';
 import datavue from './typedata.vue';
 	export default {
 		data () {
 			return {
 				popupVisible: false,
-				typedata: 1,
+				v1: '0.00',
+				v2: '0.00',
+				v3: '0.00',
+				v4: '0.00'
 			}
 		},
+		mounted() {
+			this.getsum();
+		},		
 		methods:{
-			handleClick: function(e) {
-				//获取数据
-				this.typedata=e;
-        		this.popupVisible = true
-        	}
+			getsum(){
+				var that=this;
+				getsum().then(function(res){
+					that.v1=res.data.data.v1;
+					that.v2=res.data.data.v2;
+					that.v3=res.data.data.v3;
+					that.v4=res.data.data.v4;
+				})
+			},
+			handleClick:function(a,b){
+				this.popupVisible=true;
+			}
 		},
 		components:{
 			child:datavue

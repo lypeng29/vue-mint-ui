@@ -1,13 +1,18 @@
 
 [TOC]
 
-# vue-mint-ui demo
+# vue mint-ui axios等学完后，一个完整的demo
+
+## 简要介绍
+前端mint-ui,axios请求接口,fastphp与数据库(mysql)交互,一边学习，一边写，真心累～
 
 ## 效果图预览
 
 ## 官网地址
 vue:https://cn.vuejs.org/
 mint-ui: http://mint-ui.github.io/#!/zh-cn
+fastphp: https://www.awaimai.com/128.html
+vue视频：https://ke.qq.com/webcourse/index.html#course_id=247170&term_id=100291555&taid=1607941266589058&vid=j1421xnccmy
 
 ## 体验流程
 1. git clone https://github.com/lypeng29/vue-mint-ui
@@ -39,7 +44,7 @@ npm -v
 import './assets/style.css';//直接在main.js里面写
 
 ### 导入公共js
-import './assets/common.js';//不行失败,尝试几种方法均已失败告终，这个问题暂时搁置，目前是script里面直接写function
+import './assets/common.js';//不行失败,尝试几种方法均已失败告终，这个问题暂时搁置，目前是各个vue文件的script里面直接写function
 
 ### tabber实例
 
@@ -69,8 +74,8 @@ import './assets/common.js';//不行失败,尝试几种方法均已失败告终�
 	  </mt-tab-item>
 	</mt-tabbar>
 </div>
-
 ```
+
 ```javascript
 	export default {
 		data () {
@@ -84,9 +89,9 @@ import './assets/common.js';//不行失败,尝试几种方法均已失败告终�
 用的mt-popup
 
 ### 与PHP交互
-百度了有axios和vue-resouce,我目前采用axios,第二种还没用过
+百度了有axios和vue-resouce,我目前采用axios,第二种还没用过，网上说官方不更新了，那就不考虑了～
 安装：`npm install axios --save`
-导入：import axios from 'axios';
+导入：`import axios from 'axios'`;
 使用：注意需要解决跨域问题，写相对地址不出来
 ```javascript
 axios.get('http://www.test.com/vue-mint-ui/api/index.php?id=12345')
@@ -147,5 +152,66 @@ echo $d['age'];
 }
 ```
 上面那个问题，发送两次请求变为一次了，options不存在了(为什么，不懂了)，获取参数还是php://input
+
+#### PHP参数获取终极解决方案，payload转变为form-data，后台继续用$\_POST获取，而不是php://input或者$\_GLOBAL['HTTP\_RAW\_POST_DATA']
+改变header中content-type，同时使用qs库进行转换，这样也解决了发送两次请求，只剩一个post请求了～
+
+`npm install qs;` 安装qs库，在需要请求的地方按下面格式写；
+
+vue-mint-ui/src/api/form.js文件内容如下：
+
+```javascript
+import axios from 'axios';
+// 创建axios实例
+const fetch = axios.create({
+    baseURL: 'http://www.test2.com',
+    timeout: 5000 // 请求超时时间
+});
+import Qs from 'qs'
+export function addfinance(postData) {
+    return fetch({
+        url: '/api/addfinance',
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        data: Qs.stringify(postData)
+    });
+}
+```
+
+vue-mint-ui/src/components/form.vue内容如下：
+
+`<button @click=post1()>发起POST请求</button>`
+
+```javascript
+<script>
+import {Toast} from 'mint-ui';
+import {addfinance} from '../api/form'
+methods: {
+	post1() {
+		addfinance({
+			cid: this.value,
+			type:1,
+			money: this.number,
+			addtime: Date.parse(new Date(this.date))/1000,
+			mark: this.mark
+		}).then(function(res){
+			if(res.data.code == 0){
+				Toast('提交成功');
+			}else{
+				console.log(res.data);
+				Toast('error');
+			}
+		});
+	},
+}
+</script>
+```
+
+#### 父组件向子组件动态传值
+
+例如：my.vue点击明细，将月份与类型传给child组件
+
 
 
