@@ -9,10 +9,10 @@
 ## 效果图预览
 
 ## 官网地址
-vue:https://cn.vuejs.org/
-mint-ui: http://mint-ui.github.io/#!/zh-cn
-fastphp: https://www.awaimai.com/128.html
-vue视频：https://ke.qq.com/webcourse/index.html#course_id=247170&term_id=100291555&taid=1607941266589058&vid=j1421xnccmy
+1. vue:https://cn.vuejs.org/
+2. mint-ui: http://mint-ui.github.io/#!/zh-cn
+3. fastphp: https://www.awaimai.com/128.html
+4. vue视频：https://ke.qq.com/webcourse/index.html#course_id=247170&term_id=100291555&taid=1607941266589058&vid=j1421xnccmy
 
 ## 体验流程
 1. git clone https://github.com/lypeng29/vue-mint-ui
@@ -225,33 +225,33 @@ methods: {
 
 #### 站点发布
 npm run build生成dist目录，注意修改publicPath为相对路径
-将dist复制到API文件夹中，域名直接访问dist
+将dist复制到API文件夹中，域名直接访问dist,问题来了
+
+www.test2.com即要直接访问dist目录，又要让index.php有上层各个目录的访问权限，怎么办？
+参考：http://wp.iyouths.org/343.html, 修改两个文件
+
+fastcgi.conf
+`fastcgi_param PHP_ADMIN_VALUE $basedir if_not_empty;`
+
+www.test2.com.conf
+`set $basedir "open_basedir=/home/wwwroot/dev.yunshare.net/:/tmp/:/proc/";`
+
+最后附上目录结构：
 
 -----------------
-http://www.test2.com
+http://www.test2.com ，默认直接访问的是dist/index.html文件
+
+```
 vue-mint-api
 	|--app
 	|--config
 	|--fastphp
-	|--dist
+	|--dist  //vue打包生成的目录
 		|--index.html
-		|--index.php
+		|--index.php //原根目录文件
+```
 
 -----------------
-http://localhost:5000/#/home
-vue-mint-ui
-	|--node_modules
-	|--dist
-	|--src
-		|--api
-		|--assets
-		|--components
-		|--main.js
-	|--package.json
-	|--webpack.config.js
-	|--README.md
 
-
-
-
-
+The End!
+By 2018-01-17 13:48
