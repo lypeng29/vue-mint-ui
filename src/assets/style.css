@@ -4,6 +4,7 @@
 .mint-navbar .mint-tab-item.is-selected{margin-bottom: 0px;}
 .mint-cell-title img{width:35px;}
 .mint-cell-value img{width:35px;}
+.mint-cell-value {color: #ec3f5b;}
 .mint-cell-wrapper{border-bottom: 1px #f1f1f1 solid;}
 .mint-popup {height: 100%;width:85%;overflow-y: scroll;}
 .mint-navbar .mint-tab-item {
@@ -46,3 +47,10 @@ html,body {width: 100%;height: 100%;font-family: "microsoft yahei"}
 .cell-category {clear:both;	text-align: left;margin: 0 5px 0 40px;overflow: hidden;font-size:14px;}
 .cell-img img{width:35px;}
 
+.mydata-title {
+	font-size: 16px;
+	color: #ff4747;
+	border-bottom: 2px #ff4747 solid;
+}
+.mydata-cell li {	border-bottom: 1px #f1f1f1 solid;	clear: both;	height: 50px;overflow: hidden;	margin-top: 10px;}
+.mydata-cell-list{line-height: 26px;}

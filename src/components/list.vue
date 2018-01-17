@@ -39,7 +39,7 @@ import {getinfo} from '../api/form'
 				});
 			},
 			getinfo(){
-				getinfo().then(res => {
+				getinfo('').then(res => {
 					this.datas = res.data.data;
 				})
 			}			

@@ -19,6 +19,7 @@ vue视频：https://ke.qq.com/webcourse/index.html#course_id=247170&term_id=1002
 2. npm install
 3. npm run start
 4. npm会自动打开localhost:5000预览
+5. 注意：如果使用npm run build通过生成dist目录，然后去访问localhost/dist/index.html，注意修改publicPath为: ./ 相对路径形式
 
 ## 环境要求
 已安装node与npm，确认是最新版，我使用的node9.2.1，npm5.5.1.
@@ -209,9 +210,48 @@ methods: {
 </script>
 ```
 
-#### 父组件向子组件动态传值
+#### 父组件点击触发子组件方法
 
-例如：my.vue点击明细，将月份与类型传给child组件
+例如：my.vue点击明细，将类型传给child组件
+
+改变一下思路，眼前瞬间明了～
+我为什么非要把参数传递给子组件，然后让子组件获取参数，再请求接口获取数据后显示呢？？
+我可以直接在父组件，利用参数请求接口获取数据后，把数据交给子组件显示～
+
+
+#### 利用自定义的事件，在子组件中修改父组件里边的值
+参见网址：https://www.cnblogs.com/padding1015/p/7878741.html
+
+
+#### 站点发布
+npm run build生成dist目录，注意修改publicPath为相对路径
+将dist复制到API文件夹中，域名直接访问dist
+
+-----------------
+http://www.test2.com
+vue-mint-api
+	|--app
+	|--config
+	|--fastphp
+	|--dist
+		|--index.html
+		|--index.php
+
+-----------------
+http://localhost:5000/#/home
+vue-mint-ui
+	|--node_modules
+	|--dist
+	|--src
+		|--api
+		|--assets
+		|--components
+		|--main.js
+	|--package.json
+	|--webpack.config.js
+	|--README.md
+
+
 
 
 

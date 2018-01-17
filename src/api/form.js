@@ -17,9 +17,9 @@ export function addfinance(postData) {
         data: Qs.stringify(postData)
     });
 }
-export function getinfo() {
+export function getinfo(param) {
     return fetch({
-        url: '/api/getinfo',
+        url: '/api/getinfo/'+param,
         method: 'get',
     });
 }

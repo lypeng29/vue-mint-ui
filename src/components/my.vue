@@ -5,19 +5,19 @@
  
 		<!-- cell -->
 		<br/>
-		<mt-cell title="总计：">￥{{v1}}<img slot="icon" src="../assets/payout.png"></mt-cell>
-		<mt-cell title="总计：">￥{{v2}}<img slot="icon" src="../assets/payin.png"></mt-cell>
+		<mt-cell title="总计支出">￥{{v1}}<img slot="icon" src="../assets/payout.png"></mt-cell>
+		<mt-cell title="总计收入">￥{{v2}}<img slot="icon" src="../assets/payin.png"></mt-cell>
 		<br/>
-		<mt-cell title="本月：" is-link @click.native="handleClick('this','1')"><span>￥{{v3}} 明细</span><img slot="icon" src="../assets/payout.png"></mt-cell>
-		<mt-cell title="本月：" is-link @click.native="handleClick('this','2')"><span>￥{{v4}} 明细</span><img slot="icon" src="../assets/payin.png"></mt-cell>
+		<mt-cell title="本月支出" is-link @click.native="handleClick('1')"><span>￥{{v3}} <small>查看明细</small></span><img slot="icon" src="../assets/payout.png"></mt-cell>
+		<mt-cell title="本月收入" is-link @click.native="handleClick('2')"><span>￥{{v4}} <small>查看明细</small></span><img slot="icon" src="../assets/payin.png"></mt-cell>
 		
-		<mt-popup v-model="popupVisible" position="right" modal=true><child> </child></mt-popup>
+		<mt-popup v-model="popupVisible" position="right" modal=true><child :datalist="datalist" :typename="typename"> </child></mt-popup>
 
 	</div>
 </template>
 
 <script>
-import {getsum} from '../api/form';
+import {getsum,getinfo} from '../api/form';
 import datavue from './typedata.vue';
 	export default {
 		data () {
@@ -26,13 +26,26 @@ import datavue from './typedata.vue';
 				v1: '0.00',
 				v2: '0.00',
 				v3: '0.00',
-				v4: '0.00'
+				v4: '0.00',
+				datalist: [],
+				typename:''
 			}
 		},
 		mounted() {
 			this.getsum();
 		},		
 		methods:{
+			handleClick:function(t){
+				if(t == 1){
+					this.typename = '本月支出统计';
+				}else{
+					this.typename = '本月收入统计';
+				}
+				getinfo(t).then(res=>{
+					this.datalist = res.data.data;
+				})
+				this.popupVisible=true;
+			},
 			getsum(){
 				var that=this;
 				getsum().then(function(res){
@@ -41,9 +54,6 @@ import datavue from './typedata.vue';
 					that.v3=res.data.data.v3;
 					that.v4=res.data.data.v4;
 				})
-			},
-			handleClick:function(a,b){
-				this.popupVisible=true;
 			}
 		},
 		components:{
