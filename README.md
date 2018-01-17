@@ -1,4 +1,3 @@
-
 [TOC]
 
 # vue mint-ui axios等学完后，一个完整的demo
@@ -7,18 +6,20 @@
 前端mint-ui,axios请求接口,fastphp与数据库(mysql)交互,一边学习，一边写，真心累～
 
 ## 效果图预览
+![](http://www.lypeng.com/uploads/image/5a5f074b669b0.jpg)
+![](http://www.lypeng.com/uploads/image/5a5f078096016.jpg)
 
 ## 官网地址
-1. vue:https://cn.vuejs.org/
-2. mint-ui: http://mint-ui.github.io/#!/zh-cn
-3. fastphp: https://www.awaimai.com/128.html
-4. vue视频：https://ke.qq.com/webcourse/index.html#course_id=247170&term_id=100291555&taid=1607941266589058&vid=j1421xnccmy
+1. vue: [https://cn.vuejs.org/](https://cn.vuejs.org/?_blank)
+2. mint-ui: [http://mint-ui.github.io/#!/zh-cn](http://mint-ui.github.io/#!/zh-cn?_blank)
+3. fastphp: [https://www.awaimai.com/128.html](https://www.awaimai.com/128.html?_blank)
+4. vue视频：[https://ke.qq.com/webcourse/index.html#course_id=247170&term_id=100291555&taid=1607941266589058&vid=j1421xnccmy](https://ke.qq.com/webcourse/index.html#course_id=247170&term_id=100291555&taid=1607941266589058&vid=j1421xnccmy?_blank)
 
 ## 体验流程
-1. git clone https://github.com/lypeng29/vue-mint-ui
+1. git clone [https://github.com/lypeng29/vue-mint-ui](https://github.com/lypeng29/vue-mint-ui?_blank)
 2. npm install
 3. npm run start
-4. npm会自动打开localhost:5000预览
+4. npm会自动打开 localhost: 5000预览
 5. 注意：如果使用npm run build通过生成dist目录，然后去访问localhost/dist/index.html，注意修改publicPath为: ./ 相对路径形式
 
 ## 环境要求
@@ -121,7 +122,7 @@ axios.get('http://www.test.com/vue-mint-ui/api/index.php?id=12345')
 > exit; 
 > } 
 > 关于如何避免额外发送options请求的问题，尚在解决中。
-> 以上文字来自：http://blog.csdn.net/insistlzh/article/details/73658230
+> 以上文字来自：[http://blog.csdn.net/insistlzh/article/details/73658230](http://blog.csdn.net/insistlzh/article/details/73658230?_blank)
 
 #### PHP对参数的接收
 axios.post(url,params,config);
@@ -152,9 +153,9 @@ echo $d['age'];
 	}
 }
 ```
-上面那个问题，发送两次请求变为一次了，options不存在了(为什么，不懂了)，获取参数还是php://input
+上面那个问题，发送两次请求变为一次了，options不存在了(为什么，不懂了)，获取参数还是 php://input
 
-#### PHP参数获取终极解决方案，payload转变为form-data，后台继续用$\_POST获取，而不是php://input或者$\_GLOBAL['HTTP\_RAW\_POST_DATA']
+#### PHP参数获取终极解决方案，payload转变为form-data，后台继续用$\_POST获取，而不是php://input 或者$\_GLOBAL['HTTP\_RAW\_POST_DATA']
 改变header中content-type，同时使用qs库进行转换，这样也解决了发送两次请求，只剩一个post请求了～
 
 `npm install qs;` 安装qs库，在需要请求的地方按下面格式写；
@@ -210,7 +211,7 @@ methods: {
 </script>
 ```
 
-#### 父组件点击触发子组件方法
+### 父组件点击触发子组件方法
 
 例如：my.vue点击明细，将类型传给child组件
 
@@ -219,16 +220,16 @@ methods: {
 我可以直接在父组件，利用参数请求接口获取数据后，把数据交给子组件显示～
 
 
-#### 利用自定义的事件，在子组件中修改父组件里边的值
-参见网址：https://www.cnblogs.com/padding1015/p/7878741.html
+### 利用自定义的事件，在子组件中修改父组件里边的值
+参见网址：[https://www.cnblogs.com/padding1015/p/7878741.html](https://www.cnblogs.com/padding1015/p/7878741.html?_blank)
 
 
-#### 站点发布
+## 站点发布
 npm run build生成dist目录，注意修改publicPath为相对路径
 将dist复制到API文件夹中，域名直接访问dist,问题来了
 
-www.test2.com即要直接访问dist目录，又要让index.php有上层各个目录的访问权限，怎么办？
-参考：http://wp.iyouths.org/343.html, 修改两个文件
+www.test2.com 即要直接访问dist目录，又要让index.php有上层各个目录的访问权限，怎么办？
+参考：[http://wp.iyouths.org/343.html](http://wp.iyouths.org/343.html?_blank), 修改两个文件
 
 fastcgi.conf
 `fastcgi_param PHP_ADMIN_VALUE $basedir if_not_empty;`
@@ -236,7 +237,7 @@ fastcgi.conf
 www.test2.com.conf
 `set $basedir "open_basedir=/home/wwwroot/dev.yunshare.net/:/tmp/:/proc/";`
 
-最后附上目录结构：
+## 附一，目录结构：
 
 -----------------
 http://www.test2.com ，默认直接访问的是dist/index.html文件
@@ -252,6 +253,42 @@ vue-mint-api
 ```
 
 -----------------
+
+## 附二 表结构与数据
+
+```sql
+CREATE TABLE `category` (
+  `id` int(11) NOT NULL,
+  `type` tinyint(1) DEFAULT '1' COMMENT '1支出类型，2收入类型',
+  `cname` varchar(20) DEFAULT NULL COMMENT '类别名称'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `category` (`id`, `tid`, `cname`) VALUES
+(1, 1, '餐饮（吃）'),
+(2, 1, '购物（穿）'),
+(3, 1, '住房（住）'),
+(4, 1, '交通（行）'),
+(5, 1, '其他（备）'),
+(6, 2, '工资'),
+(7, 2, '红包（微信、支付宝等）'),
+(8, 2, '其他（备）');
+
+-- --------------------------------------------------------
+
+CREATE TABLE `finance` (
+  `id` int(11) NOT NULL,
+  `cid` tinyint(3) DEFAULT '1' COMMENT '类别ID',
+  `type` tinyint(1) DEFAULT '1' COMMENT '1支出，2收入',
+  `money` decimal(8,2) DEFAULT '0.00' COMMENT '金额',
+  `addtime` int(10) DEFAULT '0' COMMENT '费用产生时间',
+  `mark` varchar(100) CHARACTER SET utf8 DEFAULT '0' COMMENT '备注'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `finance` (`id`, `cid`, `type`, `money`, `addtime`, `mark`) VALUES
+(1, 1, 1, '300.00', 1514851200, '1月餐费'),
+(2, 7, 2, '12.85', 1516060800, '微信红包'),
+(3, 4, 1, '50.00', 1516174519, '公交卡充值');
+```
 
 The End!
 By 2018-01-17 13:48
